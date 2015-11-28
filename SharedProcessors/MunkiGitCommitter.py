@@ -21,6 +21,9 @@ import subprocess
 from autopkglib import Processor, ProcessorError
 from autopkglib import get_pref
 
+# edit this if your production branch isn't "master"
+PRODUCTION_BRANCH = "master"
+
 __all__ = ["MunkiGitCommitter"]
 
 
@@ -124,6 +127,8 @@ class MunkiGitCommitter(Processor):
         self.run_git(['add', pkginfo_path],
                      git_directory=self.env["MUNKI_REPO"])
         self.run_git(['commit', '-m', commit_message],
+                     git_directory=self.env["MUNKI_REPO"])
+        self.run_git(['push', 'origin', PRODUCTION_BRANCH],
                      git_directory=self.env["MUNKI_REPO"])
 
 if __name__ == "__main__":
